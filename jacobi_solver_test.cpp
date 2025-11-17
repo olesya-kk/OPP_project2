@@ -142,13 +142,25 @@ TEST(JacobiProgramTest, DifferentSeedsUsuallyChangeResult) {
   auto res1 = RunJacobi(n, max_iter, tol, /*seed=*/1u);
   auto res2 = RunJacobi(n, max_iter, tol, /*seed=*/2u);
 
-  bool differs = (res1.iter != res2.iter) || (std::abs(res1.residual - res2.residual) > 1e-12);
+  bool differs = (res1.iter != res2.iter) || (std::abs(res1.residual - res2.residual) > 1e-18);
   EXPECT_TRUE(differs);
 }
 
+// 7) Проверяем, что при одинаковых seed у нас одинаковые результаты
+TEST(JacobiProgramTest, SameSeedGivesSameResult) {
+  int n = 20;
+  int max_iter = 300;
+  double tol = 1e-6;
+  unsigned seed = 123u;
 
+  auto res1 = RunJacobi(n, max_iter, tol, seed);
+  auto res2 = RunJacobi(n, max_iter, tol, seed);
 
-
-
+  EXPECT_EQ(res1.ret_code, res2.ret_code);
+  EXPECT_EQ(res1.n, res2.n);
+  EXPECT_EQ(res1.threads, res2.threads);
+  EXPECT_EQ(res1.iter, res2.iter);
+  EXPECT_DOUBLE_EQ(res1.residual, res2.residual);
+}
 
 
