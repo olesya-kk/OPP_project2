@@ -91,14 +91,23 @@ static JacobiRunResult RunJacobi(int n, int max_iter, double tol, unsigned seed)
   return res;
 }
 
-// 1. Проверяем, отрабатывает ли программа случай, когда пользователь вводит свое значение n
+// 1) Проверяем, отрабатывает ли программа случай, когда пользователь вводит свое значение n
 // Параметр n в выводе должен совпадать с переданным аргументом
 TEST(JacobiProgramTest, NArgumentIsRespected) {
   int n = 20;
-  auto res = RunJacobi(n, /*max_iter=*/200, /*tol=*/1e-6, /*seed=*/12345u);
+  auto res = RunJacobi(n, /*max_iter=*/5000, /*tol=*/1e-8, /*seed=*/12345);
   EXPECT_EQ(res.ret_code, 0);
   EXPECT_EQ(res.n, n);
 }
+
+// 2) Проверяем, что программа корректно определяет количество потоков через omp_get_max_threads() и сохраняет его в переменную threads
+TEST(JacobiProgramTest, ThreadsMatchOmpMaxThreads) {
+  auto res = RunJacobi(10, /*max_iter=*/100, /*tol=*/1e-6, /*seed=*/123u);
+  int expected_threads = omp_get_max_threads();
+  EXPECT_EQ(res.threads, expected_threads);
+}
+
+
 
 
 
