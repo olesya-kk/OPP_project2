@@ -1,4 +1,4 @@
-// #include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include <sstream> // чтобы перенаправить вывод std::cout в строку
 #include <string>
 #include <iostream>
@@ -90,4 +90,17 @@ static JacobiRunResult RunJacobi(int n, int max_iter, double tol, unsigned seed)
 
   return res;
 }
+
+// 1. Проверяем, отрабатывает ли программа случай, когда пользователь вводит свое значение n
+// Параметр n в выводе должен совпадать с переданным аргументом
+TEST(JacobiProgramTest, NArgumentIsRespected) {
+  int n = 20;
+  auto res = RunJacobi(n, /*max_iter=*/200, /*tol=*/1e-6, /*seed=*/12345u);
+  EXPECT_EQ(res.ret_code, 0);
+  EXPECT_EQ(res.n, n);
+}
+
+
+
+
 
