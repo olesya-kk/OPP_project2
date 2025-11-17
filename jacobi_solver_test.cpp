@@ -163,4 +163,20 @@ TEST(JacobiProgramTest, SameSeedGivesSameResult) {
   EXPECT_DOUBLE_EQ(res1.residual, res2.residual);
 }
 
+// 8) Проверяем, что система 1x1 даёт очень маленькую невязку и сходится за разумное число итераций
+TEST(JacobiProgramTest, OneDimensionalSystemHasTinyResidual) {
+  int n = 1;
+  int max_iter = 15;
+  double tol = 1e-14;
+
+  auto res = RunJacobi(n, max_iter, tol, /*seed=*/123u);
+
+  EXPECT_EQ(res.ret_code, 0);
+  EXPECT_EQ(res.n, n);
+
+  EXPECT_GE(res.iter, 1);
+  EXPECT_LE(res.iter, max_iter + 1);
+
+  EXPECT_LT(res.residual, 1e-10);
+}
 
