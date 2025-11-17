@@ -133,6 +133,18 @@ TEST(JacobiProgramTest, IterationsDependOnTolerance) {
   EXPECT_LE(res_rude_tol.iter, res_strict_tol.iter);
 }
 
+// 6) Проверяем, что при разных seed у нас разные результаты
+TEST(JacobiProgramTest, DifferentSeedsUsuallyChangeResult) {
+  int n = 15;
+  int max_iter = 300;
+  double tol = 1e-6;
+
+  auto res1 = RunJacobi(n, max_iter, tol, /*seed=*/1u);
+  auto res2 = RunJacobi(n, max_iter, tol, /*seed=*/2u);
+
+  bool differs = (res1.iter != res2.iter) || (std::abs(res1.residual - res2.residual) > 1e-12);
+  EXPECT_TRUE(differs);
+}
 
 
 
