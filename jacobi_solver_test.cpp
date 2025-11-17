@@ -120,6 +120,19 @@ TEST(JacobiProgramTest, ResidualIsNonNegative) {
   EXPECT_GE(res.residual, 0.0);
 }
 
+// 5) Проверяем, что если мы хотим строгую точность (меньший tol), 
+// то шагов итераций должно быть >=, чем при грубой точности (больший tol)
+TEST(JacobiProgramTest, IterationsDependOnTolerance) {
+  int n = 20;
+  int max_iter = 500;
+
+  auto res_rude_tol = RunJacobi(n, max_iter, /*tol=*/1e-1, /*seed=*/777u); // грубая
+  auto res_strict_tol = RunJacobi(n, max_iter, /*tol=*/1e-10, /*seed=*/777u); // строгая
+
+  // При строгой точности итераций >=
+  EXPECT_LE(res_rude_tol.iter, res_strict_tol.iter);
+}
+
 
 
 
