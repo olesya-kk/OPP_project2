@@ -107,6 +107,20 @@ TEST(JacobiProgramTest, ThreadsMatchOmpMaxThreads) {
   EXPECT_EQ(res.threads, expected_threads);
 }
 
+// 3)) Проверяем, что количество итераций не больше заданного max_iter
+TEST(JacobiProgramTest, IterNotGreaterThanMaxIter) {
+  int max_iter = 15;
+  auto res = RunJacobi(10, max_iter, /*tol=*/1e-6, /*seed=*/1u);
+  EXPECT_LE(res.iter, max_iter);
+}
+
+// 4) Проверяем, что residual неотрицательный
+TEST(JacobiProgramTest, ResidualIsNonNegative) {
+  auto res = RunJacobi(10, /*max_iter=*/100, /*tol=*/1e-6, /*seed=*/42u);
+  EXPECT_GE(res.residual, 0.0);
+}
+
+
 
 
 
