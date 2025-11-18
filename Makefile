@@ -28,7 +28,7 @@ test: gtest
 		jacobi_solver_test.cpp main.cpp \
 		-L$(GTEST_LIB) -lgtest -lgtest_main -lpthread \
 		-o build/tests.exe
-	cd build && ./tests.exe --gtest_color=yes || true
+	cd build && ./tests.exe --gtest_color=yes
 
 clean:
 	rm -rf build
