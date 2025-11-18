@@ -9,24 +9,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Клонируем репозиторий
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Устанавливаем необходимые инструменты
       - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential cmake git
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake git
 
-      # 3. Скачиваем и собираем googletest (если ещё нет)
-      - name: Build googletest
-        run: make gtest
-
-      # 4. Собираем основную программу
-      - name: Build application
+      - name: Build
         run: make build
 
-      # 5. Компилируем и запускаем тесты
       - name: Run tests
         run: make test
