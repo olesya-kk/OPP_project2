@@ -7,7 +7,7 @@ all: build
 
 build:
 	mkdir -p build
-	g++ -std=c++17 -fopenmp main.cpp -o build/app
+	g++ -std=c++17 -fopenmp lab3.cpp -o build/app
 
 test:
 	mkdir -p build
