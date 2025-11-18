@@ -1,6 +1,6 @@
 .PHONY: all build test clean
 
-SRC = main.cpp
+SRC = lab3.cpp
 TEST = jacobi_tests.cpp
 GTEST_DIR = googletest
 
