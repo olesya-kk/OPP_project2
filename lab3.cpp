@@ -11,11 +11,6 @@ int main(int argc, char** argv){
     double tol = 1e-8;
     unsigned seed = 12345;
 
-    if (argc > 1) n = atoi(argv[1]);
-    if (argc > 2) max_iter = atoi(argv[2]);
-    if (argc > 3) tol = atof(argv[3]);
-    if (argc > 4) seed = (unsigned)atoi(argv[4]);
-
     omp_set_dynamic(0);
     int threads = omp_get_max_threads();
 
