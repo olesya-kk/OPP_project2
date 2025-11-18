@@ -9,7 +9,7 @@ all: build
 # Компиляция основной программы
 build:
 	mkdir -p build
-	g++ -std=c++17 -fopenmp lab3.cpp -o build/app
+	g++ -std=c++17 -fopenmp main.cpp -o build/app
 
 
 # Сборка googletest
@@ -25,7 +25,7 @@ test: gtest
 	mkdir -p build
 	g++ -std=c++17 -fopenmp \
 		-I$(GTEST_INC) \
-		jacobi_solver_test.cpp lab3.cpp \
+		jacobi_solver_test.cpp main.cpp \
 		-L$(GTEST_LIB) -lgtest -lgtest_main -lpthread \
 		-o build/tests.exe
 	cd build && ./tests.exe --gtest_color=yes || true
