@@ -1,26 +1,22 @@
-name: C++ Jacobi - Build & Test
+name: C++ CI
 
 on:
   push:
   pull_request:
 
 jobs:
-  build:
-
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake build-essential libomp-dev
+        run: sudo apt-get update && sudo apt-get install -y build-essential cmake git
 
-      - name: Configure CMake
-        run: cmake -S . -B build
-
-      - name: Build project
-        run: cmake --build build --config Release
+      - name: Build
+        run: make build
 
       - name: Run tests
-        run: ctest --test-dir build --output-on-failure
+        run: make test
