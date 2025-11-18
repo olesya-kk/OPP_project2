@@ -3,15 +3,12 @@
 using namespace std;
 
 int main(int argc, char** argv){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
 
     int n = 2000;
     int max_iter = 5000;
     double tol = 1e-8;
     unsigned seed = 12345;
 
-    // Число потоков из аргументов или максимальное
     int threads = omp_get_max_threads();
     if (argc > 1) {
         threads = stoi(argv[1]);
@@ -28,11 +25,12 @@ int main(int argc, char** argv){
 
     vector<double> b(n), x(n), xnew(n);
 
-    std::mt19937 rng(seed);
-    std::uniform_real_distribution<double> ud(-1.0, 1.0);
-
+  
     #pragma omp parallel
     {
+        std::mt19937 rng(seed);
+        std::uniform_real_distribution<double> ud(-1.0, 1.0);
+
         #pragma omp for schedule(static)
         for(int i = 0; i < n; ++i){
             for(int j = 0; j < n; ++j){
