@@ -84,6 +84,11 @@ int main(int argc, char** argv){
         }
 
         residual = sqrt(rnorm2) / normb;
+
+        cout << "iter=" << iter + 1 
+             << " residual=" << residual 
+             << "\n";
+
         if (residual < tol) break;
     }
 
