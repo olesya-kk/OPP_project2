@@ -9,7 +9,7 @@
 // чтобы он не конфликтовал с main в текущем файле с Google Test, 
 // т.е. перед компиляцией все слова main будут заменены на jacobi_original_main
 #define main jacobi_original_main
-#include "main.cpp"
+#include "lab3.cpp"
 #undef main // отменяем этот макрос
 
 struct JacobiRunResult {
