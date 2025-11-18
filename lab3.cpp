@@ -11,8 +11,15 @@ int main(int argc, char** argv){
     double tol = 1e-8;
     unsigned seed = 12345;
 
-    omp_set_dynamic(0);
+    // Число потоков из аргументов или максимальное
     int threads = omp_get_max_threads();
+    if (argc > 1) {
+        threads = stoi(argv[1]);
+        if (threads < 1) threads = 1;
+        if (threads > omp_get_max_threads()) threads = omp_get_max_threads();
+    }
+    omp_set_dynamic(0);
+    omp_set_num_threads(threads);
 
     vector<double> Aflat((size_t)n * (size_t)n);
     auto A = [&](int i, int j)->double& {
@@ -84,11 +91,6 @@ int main(int argc, char** argv){
         }
 
         residual = sqrt(rnorm2) / normb;
-
-        cout << "iter=" << iter + 1 
-             << " residual=" << residual 
-             << "\n";
-
         if (residual < tol) break;
     }
 
@@ -96,7 +98,7 @@ int main(int argc, char** argv){
     double elapsed = chrono::duration<double>(tfinish - tstart).count();
 
     cout.setf(std::ios::fixed);
-    cout<<setprecision(6);
+    cout << setprecision(6);
 
     cout << "n=" << n
          << " threads=" << threads
@@ -104,6 +106,11 @@ int main(int argc, char** argv){
          << " residual=" << residual
          << " time=" << elapsed
          << "\n";
+
+    {
+        std::ofstream fout("results.csv", ios::app);
+        fout << threads << "," << elapsed << "\n";
+    }
 
     return 0;
 }
