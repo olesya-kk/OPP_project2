@@ -7,19 +7,16 @@ GTEST_DIR = googletest
 all: build
 
 build:
-  mkdir -p build
-  g++ -std=c++17 -fopenmp $(SRC) -o build/app
+	mkdir -p build
+	g++ -std=c++17 -fopenmp -I./include $(SRC) -o build/app
 
 test:
-  mkdir -p build
-  # скачиваем googletest, если ещё нет
-  if [ ! -d $(GTEST_DIR) ]; then git clone https://github.com/google/googletest $(GTEST_DIR); fi
-  cd $(GTEST_DIR) && mkdir -p build && cd build && cmake .. && make -j4
-  g++ -std=c++17 -fopenmp -I./$(GTEST_DIR)/googletest/include \
-    $(TEST) $(SRC) \
-    -L./$(GTEST_DIR)/build/lib -lgtest -lgtest_main -lpthread \
-    -o build/tests.exe
-  cd build && ./tests.exe
+	mkdir -p build
+	g++ -std=c++17 -fopenmp -I./$(GTEST_DIR)/googletest/include \
+	    $(TEST) lab3.cpp \
+	    -L./$(GTEST_DIR)/build/lib -lgtest -lgtest_main -lpthread \
+	    -o build/tests.exe
+	cd build && ./tests.exe
 
 clean:
-  rm -rf build
+	rm -rf build
