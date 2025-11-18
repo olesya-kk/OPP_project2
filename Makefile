@@ -1,7 +1,8 @@
 .PHONY: all build test clean
 
-GTEST_INC = googletest/googletest/include
-GTEST_LIB = googletest/build/lib
+GTEST_INC1 = googletest/googletest/include
+GTEST_INC2 = ./googletest/googletest/include
+GTEST_LIB  = googletest/build/lib
 
 all: build
 
@@ -12,7 +13,8 @@ build:
 test:
 	mkdir -p build
 	g++ -std=c++17 -fopenmp \
-		-I$(GTEST_INC) \
+		-I$(GTEST_INC1) \
+		-I$(GTEST_INC2) \
 		jacobi_solver_test.cpp lab3.cpp \
 		-L$(GTEST_LIB) -lgtest -lgtest_main -lpthread \
 		-o build/tests.exe
