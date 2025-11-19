@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 int main(int argc, char** argv) {
     int n = 2000;                  
     int max_iter = 5000;         
@@ -56,8 +55,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    auto tstart = chrono::high_resolution_clock::now();
-
+    double tstart = omp_get_wtime();
     double normb = 0.0;
     for (int i = 0; i < n; ++i) {
         normb += b[i] * b[i];
@@ -110,10 +108,8 @@ int main(int argc, char** argv) {
         }
     }
 
-    auto tfinish = chrono::high_resolution_clock::now();
-
-    double elapsed = chrono::duration<double>(tfinish - tstart).count();
-
+    double tfinish = omp_get_wtime();
+    double elapsed = tfinish - tstart;
     cout.setf(std::ios::fixed);
     cout << setprecision(6);
 
