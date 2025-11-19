@@ -6,8 +6,3 @@
 зависимости ускорения многопоточной программыпо сравнению с 1 потоком и сравнить с линейным
 ускорением.
 
-g++ .\main.cpp -fopenmp
-.\a.exe
-
-C:/msys64/ucrt64/bin/g++.exe -std=c++20 -g jacobi_solver_test.cpp -I C:/msys64/ucrt64/include -L C:/msys64/ucrt64/lib -lgtest -lgtest_main -o jacobi_tests.exe -fopenmp
-.\jacobi_tests.exe
