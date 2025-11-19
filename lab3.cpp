@@ -3,7 +3,6 @@
 using namespace std;
 
 int main(int argc, char** argv){
-
     int n = 2000;
     int max_iter = 5000;
     double tol = 1e-8;
@@ -25,13 +24,11 @@ int main(int argc, char** argv){
 
     vector<double> b(n), x(n), xnew(n);
 
-  
     #pragma omp parallel
     {
-        std::mt19937 rng(seed);
+        unsigned thread_id = omp_get_thread_num();
+        std::mt19937 rng(seed + thread_id);  
         std::uniform_real_distribution<double> ud(-1.0, 1.0);
-
-        #pragma omp for schedule(static)
         for(int i = 0; i < n; ++i){
             for(int j = 0; j < n; ++j){
                 A(i,j) = ud(rng);
@@ -50,18 +47,17 @@ int main(int argc, char** argv){
         }
     }
 
-    auto tstart = chrono::high_resolution_clock::now();
-
     double normb = 0.0;
     for(int i=0; i<n; ++i) normb += b[i] * b[i];
     normb = sqrt(normb);
     if (normb == 0.0) normb = 1.0;
 
+    double tstart = omp_get_wtime();
+
     int iter;
     double residual = 0;
 
     for(iter = 0; iter < max_iter; ++iter){
-
         #pragma omp parallel for schedule(static)
         for(int i = 0; i < n; ++i){
             double s = 0.0;
@@ -92,8 +88,8 @@ int main(int argc, char** argv){
         if (residual < tol) break;
     }
 
-    auto tfinish = chrono::high_resolution_clock::now();
-    double elapsed = chrono::duration<double>(tfinish - tstart).count();
+    double tfinish = omp_get_wtime();
+    double elapsed = tfinish - tstart;
 
     cout.setf(std::ios::fixed);
     cout << setprecision(6);
@@ -112,4 +108,3 @@ int main(int argc, char** argv){
 
     return 0;
 }
-
